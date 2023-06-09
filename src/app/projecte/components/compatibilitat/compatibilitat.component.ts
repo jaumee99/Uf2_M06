@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
+interface Heroe {
+  name: string;
+  description: string;
+  strength: number;
+  agility: number;
+}
+
 interface Arma {
   name: string;
   description: string;
@@ -13,14 +20,19 @@ interface Arma {
   styleUrls: ['./compatibilitat.component.css']
 })
 export class CompatibilitatComponent implements OnInit {
-  armes: Arma[] = [];
+  heroes: Heroe[] = [];
+  armas: Arma[] = [];
   compatibility: boolean[][] = [];
-  tipos: string[] = ['Pocio', 'Pocio mitjana', 'pocio potent'];
 
   ngOnInit() {
+    const savedHeroes = localStorage.getItem('heroes');
+    if (savedHeroes) {
+      this.heroes = JSON.parse(savedHeroes);
+    }
+
     const savedArmas = localStorage.getItem('armes');
     if (savedArmas) {
-      this.armes = JSON.parse(savedArmas);
+      this.armas = JSON.parse(savedArmas);
     }
 
     const savedCompatibility = localStorage.getItem('compatibility');
@@ -32,28 +44,32 @@ export class CompatibilitatComponent implements OnInit {
   }
 
   buildCompatibility() {
-    const armaNames = this.armes.map(arma => arma.name);
-    const numArmas = armaNames.length;
-    const numTipos = this.tipos.length;
+    const heroNames = this.heroes.map(heroe => heroe.name);
+    const weaponNames = this.armas.map(arma => arma.name);
+    const numHeroes = heroNames.length;
+    const numWeapons = weaponNames.length;
 
-    this.compatibility = Array(numTipos).fill(false).map(() => Array(numArmas).fill(false));
+    this.compatibility = Array(numHeroes).fill(false).map(() => Array(numWeapons).fill(false));
 
-    for (let i = 0; i < numTipos; i++) {
-      for (let j = 0; j < numArmas; j++) {
-        const arma = this.armes[j];
-        if (this.canHeroAcquireWeapon(this.tipos[i], arma)) {
+    for (let i = 0; i < numHeroes; i++) {
+      for (let j = 0; j < numWeapons; j++) {
+        const heroe = this.heroes[i];
+        const arma = this.armas[j];
+        if (this.canHeroAcquireWeapon(heroe, arma)) {
           this.compatibility[i][j] = true;
         }
       }
     }
   }
 
-  canHeroAcquireWeapon(tipo: string, arma: Arma): boolean {
+  canHeroAcquireWeapon(heroe: Heroe, arma: Arma): boolean {
+    // Lógica para determinar si un héroe puede adquirir un arma
+    // Implementa tus propias reglas de compatibilidad aquí
     return false;
   }
 
-  toggleCompatibility(tipoIndex: number, armaIndex: number) {
-    this.compatibility[tipoIndex][armaIndex] = !this.compatibility[tipoIndex][armaIndex];
+  toggleCompatibility(heroeIndex: number, armaIndex: number) {
+    this.compatibility[heroeIndex][armaIndex] = !this.compatibility[heroeIndex][armaIndex];
     localStorage.setItem('compatibility', JSON.stringify(this.compatibility));
   }
 }
