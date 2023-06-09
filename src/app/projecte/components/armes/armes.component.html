@@ -1,0 +1,50 @@
+<div>
+    <h2>Armes</h2>
+    <div *ngIf="errorMessages.length > 0" class="error-popup">
+      <ul>
+        <li *ngFor="let errorMessage of errorMessages">{{ errorMessage }}</li>
+      </ul>
+    </div>
+    <form (ngSubmit)="saveArma()" #armaForm="ngForm">
+      <div>
+        <label for="name">Nom:</label>
+        <input type="text" id="name" name="name" [(ngModel)]="arma.name" required>
+      </div>
+      <div>
+        <label for="damage">Damage:</label>
+        <input type="range" min="10" max="100" id="damage" name="damage" [(ngModel)]="arma.damage" [(ngModel)]="damageValue" required>
+        <a>{{ damageValue }}</a>
+      </div>
+      <div>
+        <label for="velocitat">Velocitat:</label>
+        <input type="range" min="10" max="100" id="velocitat" name="velocitat" [(ngModel)]="arma.velocity" [(ngModel)]="velocityValue" required>
+        <a>{{ velocityValue }}</a>
+      </div>
+        <div>
+            <label for="range">Range:</label>
+            <input type="range" min="10" max="100" id="range" name="range" [(ngModel)]="arma.range" [(ngModel)]="rangeValue" required>
+            <a>{{ rangeValue }}</a>
+        </div>
+      <button type="submit">Guardar</button>
+    </form>
+   
+    <table>
+      <tr>
+        <th>Nom</th>
+        <th>Damage</th>
+        <th>Velocitat</th>
+        <th>Range</th>
+        <th>Accions</th>
+      </tr>
+      <tr *ngFor="let arma of armes; let i = index">
+        <td>{{ arma.name }}</td>
+        <td>{{ arma.damage }}</td>
+        <td>{{ arma.velocity }}</td>
+        <td>{{ arma.range }}</td>
+        <td>
+          <button (click)="editArma(i)">Editar</button>
+          <button (click)="deleteArma(i)">Eliminar</button>
+        </td>
+      </tr>
+    </table>
+</div>

@@ -7,13 +7,19 @@ import { SkillsComponent } from './projecte/components/skills/skills.component';
 import { HeroesComponent } from './projecte/components/heroes/heroes.component';
 import { CompatibilitiesComponent } from './projecte/components/compatibilities/compatibilities.component';
 import { FormsModule } from '@angular/forms';
+import { ArmesComponent } from './projecte/components/armes/armes.component';
+import { HeroisComponent } from './projecte/components/herois/herois.component';
+import { TipusComponent } from './projecte/components/tipus/tipus.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SkillsComponent,
     HeroesComponent,
-    CompatibilitiesComponent
+    CompatibilitiesComponent,
+    ArmesComponent,
+    HeroisComponent,
+    TipusComponent
   ],
   imports: [
     BrowserModule,
