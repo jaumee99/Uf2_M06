@@ -6,10 +6,11 @@ import { AppComponent } from './app.component';
 import { SkillsComponent } from './projecte/components/skills/skills.component';
 import { HeroesComponent } from './projecte/components/heroes/heroes.component';
 import { CompatibilitiesComponent } from './projecte/components/compatibilities/compatibilities.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ArmesComponent } from './projecte/components/armes/armes.component';
 import { HeroisComponent } from './projecte/components/herois/herois.component';
 import { TipusComponent } from './projecte/components/tipus/tipus.component';
+import { CompatibilitatComponent } from './projecte/components/compatibilitat/compatibilitat.component';
 
 @NgModule({
   declarations: [
@@ -19,12 +20,14 @@ import { TipusComponent } from './projecte/components/tipus/tipus.component';
     CompatibilitiesComponent,
     ArmesComponent,
     HeroisComponent,
-    TipusComponent
+    TipusComponent,
+    CompatibilitatComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

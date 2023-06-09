@@ -1,0 +1,16 @@
+<div>
+    <h2>Compatibilitats de armes</h2>
+    <table>
+      <tr>
+        <th></th>
+        <th *ngFor="let arma of armes">{{ arma.name }}</th>
+      </tr>
+      <tr *ngFor="let tipo of tipos; let i = index">
+        <th>{{ tipo }}</th>
+        <td *ngFor="let armaB of armes; let j = index">
+          <input type="checkbox" [checked]="compatibility[i][j]" (change)="toggleCompatibility(i, j)">
+        </td>
+      </tr>
+    </table>
+  </div>
+  

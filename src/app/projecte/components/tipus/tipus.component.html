@@ -1,1 +1,10 @@
-<p>tipus works!</p>
+<div>
+  <h2>Gestión de Tipus</h2>
+  <form [formGroup]="tipusForm" (ngSubmit)="saveTipus()" #tipusFormRef="ngForm">
+    <div>
+      <label for="tipus">Tipus:</label>
+      <input type="text" id="tipus" formControlName="tipus" required>
+    </div>
+    <button type="submit">Guardar</button>
+  </form>
+</div>

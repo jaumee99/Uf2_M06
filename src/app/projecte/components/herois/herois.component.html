@@ -1,1 +1,26 @@
-<p>herois works!</p>
+<div>
+  <h2>Afegir Heroi</h2>
+  <form (submit)="saveHero()">
+    <div>
+      <label for="heroName">Nom del heroi:</label>
+      <input type="text" id="heroName" name="heroName" [(ngModel)]="hero.name">
+    </div>
+    <div>
+      <label>Habilitats:</label>
+      <select [(ngModel)]="selectedArmas">
+        <option *ngFor="let arma of armas" [value]="arma">{{ arma }}</option>
+      </select>
+    </div>
+    <div>
+      <button type="submit">Guardar</button>
+    </div>
+  </form>
+
+  <div *ngIf="errorMessages.length > 0" class="error-popup">
+    <h3>Error</h3>
+    <ul>
+      <li *ngFor="let error of errorMessages">{{ error }}</li>
+    </ul>
+  </div>
+
+</div>

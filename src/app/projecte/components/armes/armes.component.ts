@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 interface Arma {
   name: string;
@@ -12,8 +13,9 @@ interface Arma {
   templateUrl: './armes.component.html',
   styleUrls: ['./armes.component.css']
 })
-export class ArmesComponent {
+export class ArmesComponent implements OnInit {
 
+  armaForm: FormGroup;
   arma: Arma = {
     name: '',
     damage: 10,
@@ -26,6 +28,16 @@ export class ArmesComponent {
   damageValue: number = this.arma.damage;
   velocityValue: number = this.arma.velocity;
   rangeValue: number = this.arma.range;
+  submitted: boolean = false;
+
+  constructor(private formBuilder: FormBuilder) {
+    this.armaForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      damage: [10, Validators.required],
+      velocity: [10, Validators.required],
+      range: [10, Validators.required]
+    });
+  }
 
   ngOnInit() {
     const savedArmes = localStorage.getItem('armes');
@@ -35,47 +47,51 @@ export class ArmesComponent {
   }
 
   saveArma() {
+    this.submitted = true;
     this.errorMessages = [];
 
-    if (!this.arma.name) {
+    if (this.armaForm.invalid) {
+      return;
+    }
+
+    const { name, damage, velocity, range } = this.armaForm.value;
+
+    if (!name) {
       this.errorMessages.push('El nom de l\'arma és obligatori.');
     }
 
-    if (!this.arma.damage) {
+    if (!damage) {
       this.errorMessages.push('El dany de l\'arma és obligatori.');
     }
 
-    if (!this.arma.velocity) {
+    if (!velocity) {
       this.errorMessages.push('La velocitat de l\'arma és obligatòria.');
     }
 
-    if (!this.arma.range) {
+    if (!range) {
       this.errorMessages.push('El rang de l\'arma és obligatori.');
     }
 
-    if (this.arma.damage + this.arma.velocity + this.arma.range !== 100) {
-      this.errorMessages.push('La suma del dany i el mana ha de ser 100.');
+    if (damage + velocity + range !== 100) {
+      this.errorMessages.push('La suma del dany, la velocitat i el rang ha de ser 100.');
     }
 
-    if (this.isArmaNameDuplicate(this.arma.name)) {
+    if (this.isArmaNameDuplicate(name)) {
       this.errorMessages.push('El nom de l\'arma ja existeix.');
     }
 
     if (this.errorMessages.length === 0) {
       if (this.editIndex === null) {
-        this.armes.push(this.arma);
+        this.armes.push({ name, damage, velocity, range });
       } else {
-        this.armes[this.editIndex] = this.arma;
+        this.armes[this.editIndex] = { name, damage, velocity, range };
       }
-      this.arma = {
-        name: '',
-        damage: 0,
-        velocity: 0,
-        range: 0
-      };
+      this.armaForm.reset();
       this.editIndex = null;
       localStorage.setItem('armes', JSON.stringify(this.armes));
     }
+
+    this.submitted = false;
   }
 
   isArmaNameDuplicate(name: string): boolean {
@@ -87,6 +103,7 @@ export class ArmesComponent {
   editArma(index: number) {
     this.arma = this.armes[index];
     this.editIndex = index;
+    this.armaForm.patchValue(this.arma);
   }
 
   deleteArma(index: number) {
