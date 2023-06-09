@@ -1,0 +1,16 @@
+<div>
+    <h2>Compatibilitats de Skills</h2>
+    <table>
+      <tr>
+        <th></th>
+        <th *ngFor="let skill of skills">{{ skill.name }}</th>
+      </tr>
+      <tr *ngFor="let skillA of skills; let i = index">
+        <td>{{ skillA.name }}</td>
+        <td *ngFor="let skillB of skills; let j = index">
+          <input type="checkbox" [checked]="compatibility[i][j]" (change)="toggleCompatibility(i, j)">
+        </td>
+      </tr>
+    </table>
+  </div>
+  

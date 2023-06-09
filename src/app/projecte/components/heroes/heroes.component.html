@@ -1,0 +1,49 @@
+<div>
+    <h2>Afegir Heroi</h2>
+    <form (submit)="saveHero()">
+      <div>
+        <label for="heroName">Nom del heroi:</label>
+        <input type="text" id="heroName" name="heroName" [(ngModel)]="hero.name">
+      </div>
+      <div>
+        <label for="heroDescription">Descripció:</label>
+        <textarea id="heroDescription" name="heroDescription" [(ngModel)]="hero.description"></textarea>
+      </div>
+      <div>
+        <label>Habilitats:</label>
+        <select multiple [(ngModel)]="selectedSkills">
+          <option *ngFor="let skill of skills" [value]="skill">{{ skill }}</option>
+        </select>
+      </div>
+      <div>
+        <button type="submit">Guardar</button>
+      </div>
+    </form>
+  
+    <div *ngIf="errorMessages.length > 0" class="error-popup">
+      <h3>Error</h3>
+      <ul>
+        <li *ngFor="let error of errorMessages">{{ error }}</li>
+      </ul>
+    </div>
+  
+    <h2>Llista de Herois</h2>
+    <table>
+      <tr>
+        <th>Nom</th>
+        <th>Descripció</th>
+        <th>Habilitats</th>
+        <th>Accions</th>
+      </tr>
+      <tr *ngFor="let hero of heroes; let i = index">
+        <td>{{ hero.name }}</td>
+        <td>{{ hero.description }}</td>
+        <td>{{ hero.skills.join(', ') }}</td>
+        <td>
+          <button (click)="editHero(i)">Editar</button>
+          <button (click)="deleteHero(i)">Eliminar</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  
